@@ -18,7 +18,7 @@ struct TouchStrokeCacheItem {
 
 
 @interface JotStrokeManager () {
-   @private
+   
     // this dictionary will hold all of the
     // stroke objects
     struct TouchStrokeCacheItem strokeCache[kMaxSimultaneousTouchesAllowedToTrack];

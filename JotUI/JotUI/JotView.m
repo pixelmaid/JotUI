@@ -468,8 +468,8 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
 
             dispatch_semaphore_wait(sema2, DISPATCH_TIME_FOREVER);
 
-            dispatch_release(sema1);
-            dispatch_release(sema2);
+           // dispatch_release(sema1);
+           // dispatch_release(sema2);
 
             // done saving JotView
             exportFinishBlock(ink, thumb, immutableState);
@@ -1408,10 +1408,9 @@ static int undoCounter;
  * for this example app, we'll simply draw every touch only if
  * the jot sdk is not enabled.
  */
-- (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
+/*- (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state)
         return;
-
     for (UITouch* touch in touches) {
         @autoreleasepool {
             if ([self.delegate willBeginStrokeWithCoalescedTouch:touch fromTouch:touch]) {
@@ -1435,7 +1434,7 @@ static int undoCounter;
         }
     }
     [JotGLContext validateEmptyContextStack];
-}
+}*/
 
 /**
  * calculates the distance between two points
@@ -1445,7 +1444,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
 }
 
 
-- (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
+/*- (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state)
         return;
 
@@ -1518,8 +1517,8 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
         [currentStroke unlock];
     }
     [JotGLContext validateEmptyContextStack];
-}
-
+}*/
+/*
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state)
         return;
@@ -1597,7 +1596,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     // clear the canvas and rerender all valid strokes
     [self renderAllStrokesToContext:context inFramebuffer:viewFramebuffer andPresentBuffer:YES inRect:CGRectZero];
     [JotGLContext validateEmptyContextStack];
-}
+}*/
 
 
 #pragma mark - Public Interface
