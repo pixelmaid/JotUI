@@ -76,6 +76,9 @@ static dispatch_queue_t loadUnloadStateQueue;
                 if (!shouldKeepStateLoaded) {
                     DebugLog(@"will waste some time loading a JotViewState that we don't need...");
                 }
+                DebugLog(@"ink path %@",delegate.jotViewStateInkPath);
+                DebugLog(@"plist path %@",delegate.jotViewStatePlistPath);
+
                 jotViewState = [[JotViewState alloc] initWithImageFile:delegate.jotViewStateInkPath
                                                           andStateFile:delegate.jotViewStatePlistPath
                                                            andPageSize:pagePtSize

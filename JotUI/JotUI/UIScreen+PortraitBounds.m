@@ -21,4 +21,15 @@
     return b;
 }
 
+- (CGRect)landscapeBounds {
+    CGRect b = [self bounds];
+    if (b.size.width < b.size.height) {
+        CGFloat t = b.size.width;
+        b.size.width = b.size.height;
+        b.size.height = t;
+    }
+    return b;
+}
+
+
 @end

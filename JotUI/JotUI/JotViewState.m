@@ -21,7 +21,7 @@
 #import "NSMutableArray+RemoveSingle.h"
 #import "JotDiskAssetManager.h"
 
-#define kJotDefaultUndoLimit 10
+#define kJotDefaultUndoLimit 0
 
 //
 // private intializer for the immutable state
@@ -145,14 +145,20 @@ static JotGLContext* backgroundLoadTexturesThreadContext = nil;
     [backgroundLoadTexturesThreadContext runBlock:^{
         // load image from disk
         UIImage* savedInkImage = [JotDiskAssetManager imageWithContentsOfFile:inkImageFile];
-
+        
         // load new texture
         self.backgroundTexture = [[JotGLTexture alloc] initForImage:savedInkImage withSize:fullPixelSize];
 
         if (!savedInkImage) {
             // no image was given, so it should be a blank texture
             // lets erase it, since it defaults to uncleared memory
+            DebugLog(@"no image given %@",savedInkImage);
+
             [self.backgroundFramebuffer clear];
+        }
+        else{
+            DebugLog(@"image given %@",savedInkImage);
+
         }
         [backgroundLoadTexturesThreadContext finish];
     }];
@@ -277,11 +283,11 @@ static JotGLContext* backgroundLoadStrokesThreadContext = nil;
             currentStroke ||
             [stackOfStrokes count] > kJotDefaultUndoLimit) {
             if (currentStroke) {
-                // can't save, currently drawing
+               DebugLog(@"can't save, currently drawing");
             } else if ([strokesBeingWrittenToBackingTexture count]) {
-                // can't save, writing to texture
+                DebugLog(@"can't save, writing to texture");
             } else if ([stackOfStrokes count] > kJotDefaultUndoLimit) {
-                // can't save, more strokes than our undo limit, waiting until they're written to texture
+                DebugLog(@"can't save, more strokes than our undo limit, waiting until they're written to texture");
             }
             return NO;
         }

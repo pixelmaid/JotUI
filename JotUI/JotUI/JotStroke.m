@@ -11,6 +11,7 @@
 #import "AbstractBezierPathElement.h"
 #import "AbstractBezierPathElement-Protected.h"
 #import "JotDefaultBrushTexture.h"
+#import "JotSquareBrushTexture.h"
 #import "NSArray+JotMapReduce.h"
 #import "JotBufferVBO.h"
 #import "JotBufferManager.h"

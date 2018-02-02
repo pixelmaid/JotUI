@@ -52,7 +52,6 @@
             CGFloat scale = layer.contentsScale;
 
             initialViewport = CGSizeMake(frame.size.width * scale, frame.size.height * scale);
-
             [context glViewportWithX:0 y:0 width:(GLsizei)initialViewport.width height:(GLsizei)initialViewport.height];
 
             [context assertCheckFramebuffer];

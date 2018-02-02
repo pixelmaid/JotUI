@@ -13,4 +13,6 @@
 
 + (UIImage*)circleBrushTexture;
 
++ (UIImage*)squareBrushTexture;
+
 @end

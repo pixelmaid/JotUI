@@ -827,7 +827,7 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
 
                 // create the texture
                 // maxTextureSize
-                CGSize maxTextureSize = [UIScreen mainScreen].portraitBounds.size;
+                CGSize maxTextureSize = [UIScreen mainScreen].landscapeBounds.size;
                 maxTextureSize.width *= [UIScreen mainScreen].scale;
                 maxTextureSize.height *= [UIScreen mainScreen].scale;
                 JotGLTexture* canvasTexture = [[JotTextureCache sharedManager] generateTextureForContext:secondSubContext ofSize:maxTextureSize];
@@ -1232,9 +1232,9 @@ static int undoCounter;
  */
 - (void)validateUndoState:(NSTimer*)timer {
     CheckMainThread;
-
+   // DebugLog(@"validate undo state called %lu %lu",(unsigned long)[exportLaterInvocations count],(unsigned long)[state.strokesBeingWrittenToBackingTexture count]);
     if ([exportLaterInvocations count]) {
-        DebugLog(@"waiting to export");
+        DebugLog(@"waiting to export %lu",(unsigned long)[exportLaterInvocations count]);
     }
 
 
@@ -1253,6 +1253,8 @@ static int undoCounter;
                 // containing only the correct number of undoable items in its
                 // arrays, and putting all excess strokes into strokesBeingWrittenToBackingTexture
                 [state tick];
+                //DebugLog(@"state is ready to export %d",[state isReadyToExport]);
+                //DebugLog(@"state strokes being written to backing texture %lu",(unsigned long)[state.strokesBeingWrittenToBackingTexture count]);
 
                 if ([state.strokesBeingWrittenToBackingTexture count]) {
                     DebugLog(@"writing %d strokes to texture", (int)[state.strokesBeingWrittenToBackingTexture count]);
@@ -1305,19 +1307,20 @@ static int undoCounter;
                     [imageTextureLock unlock];
                     [inkTextureLock unlock];
                 } else if (!state || [state isReadyToExport]) {
+                     //DebugLog(@"trying state export %d",[[JotTrashManager sharedInstance] tick]);
                     [imageTextureLock unlock];
                     [inkTextureLock unlock];
                     // only export if the trash manager is empty
                     // that way we're exporting w/ low memory instead
                     // of unknown memory
-                    if (![[JotTrashManager sharedInstance] tick]) {
+                    //if (![[JotTrashManager sharedInstance] tick]) {
                         // ok, the trash is empty, so now see if we need to export
                         if ([exportLaterInvocations count]) {
                             NSInvocation* invokation = [exportLaterInvocations objectAtIndex:0];
                             [exportLaterInvocations removeSingleObject:invokation];
                             [invokation invoke];
                         }
-                    }
+                    //}
                 } else {
                     [imageTextureLock unlock];
                     [inkTextureLock unlock];
@@ -1408,6 +1411,7 @@ static int undoCounter;
  * for this example app, we'll simply draw every touch only if
  * the jot sdk is not enabled.
  */
+
 /*- (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state)
         return;
@@ -1435,6 +1439,7 @@ static int undoCounter;
     }
     [JotGLContext validateEmptyContextStack];
 }*/
+
 
 /**
  * calculates the distance between two points
@@ -1517,8 +1522,9 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
         [currentStroke unlock];
     }
     [JotGLContext validateEmptyContextStack];
-}*/
-/*
+}
+
+
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state)
         return;
@@ -1596,7 +1602,8 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     // clear the canvas and rerender all valid strokes
     [self renderAllStrokesToContext:context inFramebuffer:viewFramebuffer andPresentBuffer:YES inRect:CGRectZero];
     [JotGLContext validateEmptyContextStack];
-}*/
+}
+ */
 
 
 #pragma mark - Public Interface
