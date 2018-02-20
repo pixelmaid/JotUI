@@ -287,6 +287,13 @@ static dispatch_queue_t loadUnloadStateQueue;
     [self.jotViewState addUndoLevelAndContinueStroke];
 }
 
+- (NSInteger)undoLimit {
+    return [jotViewState undoLimit];
+}
+- (void)setUndoLimit:(int)undoLimit {
+    jotViewState.undoLimit = undoLimit;
+}
+
 #pragma mark - Dealloc
 
 - (void)dealloc {

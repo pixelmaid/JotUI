@@ -22,6 +22,7 @@
 
 // ability to cancel strokes
 @property(nonatomic, weak) NSObject<JotStrokeDelegate>* delegate;
+@property(nonatomic, assign) NSInteger undoLimit;
 
 // backing textures
 @property(nonatomic, strong) JotGLTexture* backgroundTexture;

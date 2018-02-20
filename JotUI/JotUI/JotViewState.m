@@ -52,6 +52,7 @@
 }
 
 @synthesize delegate;
+@synthesize undoLimit;
 @synthesize backgroundTexture;
 @synthesize backgroundFramebuffer;
 @synthesize currentStroke;
@@ -65,6 +66,7 @@
         stackOfStrokes = [NSMutableArray array];
         stackOfUndoneStrokes = [NSMutableArray array];
         strokesBeingWrittenToBackingTexture = [NSMutableArray array];
+        undoLimit = kJotDefaultUndoLimit;
     }
     return self;
 }
@@ -179,6 +181,8 @@ static JotGLContext* backgroundLoadStrokesThreadContext = nil;
         // load the file
         NSDictionary* stateInfo = [NSDictionary dictionaryWithContentsOfFile:stateInfoFile];
 
+        undoLimit = [stateInfo[@"undoLimit"] integerValue] ?: kJotDefaultUndoLimit;
+
         if (stateInfo) {
             CGSize strokeStatePageSize = CGSizeMake([stateInfo[@"screenSize.width"] floatValue], [stateInfo[@"screenSize.height"] floatValue]);
 
@@ -243,8 +247,8 @@ static JotGLContext* backgroundLoadStrokesThreadContext = nil;
 
 - (void)tick {
     @synchronized(self) {
-        if ([stackOfStrokes count] > kJotDefaultUndoLimit) {
-            while ([stackOfStrokes count] > kJotDefaultUndoLimit) {
+        if ([stackOfStrokes count] > undoLimit) {
+            while ([stackOfStrokes count] > undoLimit) {
                 [strokesBeingWrittenToBackingTexture addObject:[stackOfStrokes objectAtIndex:0]];
                 [stackOfStrokes removeObjectAtIndex:0];
             }
@@ -265,6 +269,7 @@ static JotGLContext* backgroundLoadStrokesThreadContext = nil;
         // the ImmutableState object won't be able to calculate it, so we need to
         // send it in for it
         [stateDict setObject:[NSNumber numberWithUnsignedInteger:[self undoHash]] forKey:@"undoHash"];
+        [stateDict setObject:[NSNumber numberWithInteger:[self undoLimit]] forKey:@"undoLimit"];
 
         stateDict[@"screenSize.width"] = @(fullPtSize.width);
         stateDict[@"screenSize.height"] = @(fullPtSize.height);
@@ -281,12 +286,13 @@ static JotGLContext* backgroundLoadStrokesThreadContext = nil;
     @synchronized(self) {
         if ([strokesBeingWrittenToBackingTexture count] ||
             currentStroke ||
-            [stackOfStrokes count] > kJotDefaultUndoLimit) {
+            [stackOfStrokes count] > undoLimit) {
             if (currentStroke) {
                DebugLog(@"can't save, currently drawing");
             } else if ([strokesBeingWrittenToBackingTexture count]) {
                 DebugLog(@"can't save, writing to texture");
-            } else if ([stackOfStrokes count] > kJotDefaultUndoLimit) {
+            }  else if ([stackOfStrokes count] > undoLimit) {
+                // can't save, more strokes than our undo limit, waiting until they're written to texture
                 DebugLog(@"can't save, more strokes than our undo limit, waiting until they're written to texture");
             }
             return NO;

@@ -27,6 +27,7 @@
 @property(nonatomic, strong) JotStroke* currentStroke;
 @property(nonatomic, readonly) int fullByteSize;
 @property(nonatomic, assign) BOOL isForgetful;
+@property(nonatomic, assign) NSInteger undoLimit;
 
 - (id)initWithDelegate:(NSObject<JotViewStateProxyDelegate>*)delegate;
 
