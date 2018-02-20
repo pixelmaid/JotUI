@@ -39,7 +39,7 @@
 }
 
 - (BOOL)bind {
-    DebugLog(@"binding square brush");
+   // DebugLog(@"binding square brush");
     return [[self brushTexture] bind];
 }
 

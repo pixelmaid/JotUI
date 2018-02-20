@@ -21,7 +21,7 @@
 #import "NSMutableArray+RemoveSingle.h"
 #import "JotDiskAssetManager.h"
 
-#define kJotDefaultUndoLimit 0
+#define kJotDefaultUndoLimit 100
 
 //
 // private intializer for the immutable state
@@ -384,7 +384,10 @@ static JotGLContext* backgroundLoadStrokesThreadContext = nil;
 - (void)finishCurrentStroke {
     @synchronized(self) {
         if (currentStroke) {
+           
+
             [stackOfStrokes addObject:currentStroke];
+
             currentStroke = nil;
         }
         [[JotTrashManager sharedInstance] addObjectsToDealloc:stackOfUndoneStrokes];

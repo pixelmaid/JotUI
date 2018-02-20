@@ -26,6 +26,7 @@
     NSMutableArray* segments;
     // cache the hash, since it's expenseive to calculate
     NSUInteger hashCache;
+    NSString* strokeId;
 }
 
 @property(nonatomic, readonly) SegmentSmoother* segmentSmoother;
@@ -35,7 +36,6 @@
 @property(nonatomic, readonly) NSInteger totalNumberOfBytes;
 @property(nonatomic, strong) JotBufferManager* bufferManager;
 @property(nonatomic, readonly) int fullByteSize;
-
 /**
  * create an empty stroke with the input texture
  */
