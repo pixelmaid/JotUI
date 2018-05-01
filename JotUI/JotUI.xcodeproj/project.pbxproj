@@ -908,7 +908,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "JotUI/JotUI-Info.plist";
-				INSTALL_PATH = /Library/Frameworks;
+				INSTALL_PATH = /Documents/work/code/DynamicBrushes/swift;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				ONLY_ACTIVE_ARCH = NO;
 				ONLY_ACTIVE_PLATFORM = YES;
@@ -952,7 +952,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "JotUI/JotUI-Info.plist";
-				INSTALL_PATH = /Library/Frameworks;
+				INSTALL_PATH = /Documents/work/code/DynamicBrushes/swift;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				ONLY_ACTIVE_PLATFORM = YES;
 				"OTHER_CFLAGS[arch=*]" = "-fembed-bitcode";

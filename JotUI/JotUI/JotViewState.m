@@ -21,7 +21,7 @@
 #import "NSMutableArray+RemoveSingle.h"
 #import "JotDiskAssetManager.h"
 
-#define kJotDefaultUndoLimit 100
+#define kJotDefaultUndoLimit 20
 
 //
 // private intializer for the immutable state
@@ -351,7 +351,28 @@ static JotGLContext* backgroundLoadStrokesThreadContext = nil;
             JotStroke* undoneStroke = [stackOfStrokes lastObject];
             [stackOfUndoneStrokes addObject:undoneStroke];
             [stackOfStrokes removeLastObject];
+            DebugLog(@"stroke id %@",  [undoneStroke getId]);
             return undoneStroke;
+        }
+        return nil;
+    }
+}
+
+-(JotStroke*)undoById: (NSString*)targetId {
+    @synchronized(self) {
+        if ([self canUndo]) {
+            int index = 0;
+            for (id stroke in stackOfStrokes){
+                NSString* strokeId = [stroke getId];
+                if([strokeId isEqualToString:targetId]){
+                    JotStroke* undoneStroke = stroke;
+                    [stackOfUndoneStrokes addObject:undoneStroke];
+                    [stackOfStrokes removeObjectAtIndex:index];
+                    DebugLog(@"stroke id %@",  [undoneStroke getId]);
+                    return undoneStroke;
+                }
+                index ++;
+            }
         }
         return nil;
     }

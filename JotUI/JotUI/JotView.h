@@ -50,6 +50,7 @@
 
 // undo the last stroke, if possible
 - (IBAction)undo;
+- (IBAction)undoById:(NSString*)targetId;
 
 // undo and forget the last stroke, if possible. stroke cannot be redone.
 - (void)undoAndForget;

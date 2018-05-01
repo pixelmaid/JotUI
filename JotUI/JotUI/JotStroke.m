@@ -35,6 +35,7 @@
 }
 
 @synthesize segments;
+@synthesize strokeId;
 @synthesize segmentSmoother;
 @synthesize texture;
 @synthesize delegate;
@@ -50,6 +51,7 @@
         segmentSmoother = [[SegmentSmoother alloc] init];
         texture = _texture;
         bufferManager = _bufferManager;
+        strokeId = @"default";
     }
     return self;
 }
@@ -59,6 +61,7 @@
         segments = [NSMutableArray array];
         hashCache = 1;
         lock = [[NSRecursiveLock alloc] init];
+        strokeId = @"foobar";
     }
     return self;
 }
@@ -122,6 +125,8 @@
     }
 }
 
+
+
 - (CGRect)bounds {
     if ([self.segments count]) {
         CGRect bounds = [[self.segments objectAtIndex:0] bounds];
@@ -183,6 +188,14 @@
 
 - (NSString*)uuid {
     return [NSString stringWithFormat:@"%lu", (unsigned long)[self hash]];
+}
+
+- (NSString*)getId {
+    return strokeId;
+}
+
+-(void)setId:(NSString*)id{
+    strokeId = id;
 }
 
 - (BOOL)isEqual:(id)object {

@@ -95,6 +95,8 @@
 
 - (JotStroke*)undo;
 
+-(JotStroke*)undoById: (NSString*)targetId;
+
 - (JotStroke*)redo;
 
 - (JotStroke*)undoAndForget;

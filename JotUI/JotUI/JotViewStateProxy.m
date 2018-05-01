@@ -255,6 +255,10 @@ static dispatch_queue_t loadUnloadStateQueue;
     return [self.jotViewState undo];
 }
 
+-(JotStroke*)undoById: (NSString*)targetId{
+    return [self.jotViewState undoById:targetId];
+}
+
 - (JotStroke*)redo {
     return [self.jotViewState redo];
 }

@@ -36,10 +36,13 @@
 @property(nonatomic, readonly) NSInteger totalNumberOfBytes;
 @property(nonatomic, strong) JotBufferManager* bufferManager;
 @property(nonatomic, readonly) int fullByteSize;
+@property(nonatomic, readonly) NSString* strokeId;
+
+
 /**
  * create an empty stroke with the input texture
  */
-- (id)initWithTexture:(JotBrushTexture*)_texture andBufferManager:(JotBufferManager*)bufferManager;
+- (id)initWithTexture:(JotBrushTexture*)_texture andBufferManager:(JotBufferManager*)_bufferManager;
 
 - (CGRect)bounds;
 
@@ -64,6 +67,10 @@
 - (void)empty;
 
 - (NSString*)uuid;
+
+- (NSString*)getId;
+
+-(void)setId:(NSString*)id;
 
 - (void)lock;
 - (void)unlock;

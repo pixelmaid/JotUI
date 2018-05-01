@@ -1650,6 +1650,20 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     [undoneStroke unlock];
 }
 
+
+- (IBAction) undoById:(NSString*)targetId {
+    CheckMainThread;
+    JotStroke* undoneStroke = [state undoById:targetId];
+    [undoneStroke lock];
+    if (undoneStroke) {
+        CGFloat scale = [[UIScreen mainScreen] scale];
+        CGRect bounds = [undoneStroke bounds];
+        bounds = CGRectApplyAffineTransform(bounds, CGAffineTransformMakeScale(scale, scale));
+        [self renderAllStrokesToContext:context inFramebuffer:viewFramebuffer andPresentBuffer:YES inRect:bounds];
+    }
+    [undoneStroke unlock];
+    
+}
 // helper method to pop the most recent stroke
 // off the stack and forget it entirely. it will
 // not be able to be redone.

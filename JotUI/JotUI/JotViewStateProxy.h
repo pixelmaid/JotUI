@@ -64,6 +64,8 @@
 
 - (JotStroke*)undo;
 
+-(JotStroke*)undoById: (NSString*)targetId;
+
 - (JotStroke*)redo;
 
 // same as undo, except the undone
